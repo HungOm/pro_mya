@@ -1,8 +1,12 @@
 import React from 'react'
 import Link from 'next/link'
-import LinkPreviewGenerator from "link-preview-generator"
+import Facts from './Facts'
+import Tips from './Tips'
 
 const Feeds = ({ show }) => {
+
+    const [TipsList, setTipsList] = React.useState([])
+    const [tipData, setTipData] = React.useState(null)
 
     const News = () => {
         let list = [
@@ -59,35 +63,9 @@ const Feeds = ({ show }) => {
         </>
     }
 
-    const Facts = async () => {
-        let list = [{ link: 'https://twitter.com/Salonix__/status/1364507973658181635' }]
 
-        let previewDataList = await Promise.all(list.map(async link => await LinkPreviewGenerator(link)))
 
-        console.log('previewDataList', previewDataList)
-        return <div className='border-2 border-black py-4 px-3'>
-            facts
-                   {/* {  React.Children.toArray(
-                         previewDataList.map(previewData => {
-                             return <div>
-                                 <img src={previewData.img} />
-                                 <h1>{previewData.title}</h1>
-                                 <p>{previewData.description}</p>
-                                 <p className='text-center'><strong>{previewData.domain}</strong></p>
-                             </div>
-                         }
-                         )
-                     )
-                 } */}
-        </div >
-    }
 
-    const Tips = () => {
-        return <div className='border-2 border-black py-4 px-3'>
-
-            Tips
-     </div>
-    }
     const HowTo = () => {
         return <div className='border-2 border-black py-4 px-3'>
 
@@ -106,7 +84,9 @@ const Feeds = ({ show }) => {
         switch (show) {
             case 'News': return <News />
             case 'Facts': return <Facts />
-            case 'Tips': return <Tips />
+            case 'Tips': return <Tips
+                TipsList={TipsList} setTipsList={setTipsList} tipData={tipData} setTipData={setTipData}
+            />
             case 'How-to': return <HowTo />
             case 'About': return <About />
             default: <News />

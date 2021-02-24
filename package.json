@@ -12,6 +12,7 @@
     "bcryptjs": "^2.4.3",
     "isomorphic-unfetch": "^3.1.0",
     "jsonwebtoken": "^8.5.1",
+    "link-preview-js": "^2.1.6",
     "mongoose": "^5.11.17",
     "next": "10.0.7",
     "react": "17.0.1",
