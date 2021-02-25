@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 
-const childObject = new mongoose.Schema({
-	text: {
-		type: String,
-	},
-	image: {
-		type: String,
-	},
-});
+// const childObject = new mongoose.Schema({
+// 	text: {
+// 		type: String,
+// 	},
+// 	image: {
+// 		type: String,
+// 	},
+// });
 
 const factSchema = new mongoose.Schema(
 	{
@@ -17,7 +17,7 @@ const factSchema = new mongoose.Schema(
 		source: {
 			type: String,
 		},
-		content: [childObject],
+		content: [],
 	},
 	{
 		timestamps: true,

@@ -1,15 +1,20 @@
 import React from 'react';
 import Link from 'next/link';
+import Facts from './Facts';
+import Tips from './Tips';
 
 const Feeds = ({ show }) => {
+	const [TipsList, setTipsList] = React.useState([]);
+	const [tipData, setTipData] = React.useState(null);
+
 	const News = () => {
-		const list = [
+		let list = [
 			{
 				embbed:
 					'<blockquote class="twitter-tweet"><p lang="en" dir="ltr">Less time debating the properties of money, more time figuring out how to make some.</p>&mdash; Jack Butcher (@jackbutcher) <a href="https://twitter.com/jackbutcher/status/1363497157471465475?ref_src=twsrc%5Etfw">February 21, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>',
 				content: '',
-				source: 'www.twitter.com/213123',
-				author: 'www.twitter.com/@shelomoh',
+				source: 'https://www.twitter.com/213123',
+				author: 'https://www.twitter.com/@shelomoh',
 			},
 			// {
 			//     embbed: 'https://www.bbc.com/news/world-us-canada-56141673',
@@ -20,6 +25,12 @@ const Feeds = ({ show }) => {
 
 		const stripString = (embbed) => embbed.substring(0, embbed.length - 0);
 
+		function createMarkup(embbed) {
+			return {
+				__html: embbed,
+			};
+		}
+
 		return (
 			<>
 				{React.Children.toArray(
@@ -27,17 +38,17 @@ const Feeds = ({ show }) => {
 						<div className='border-2 border-black py-4 px-3'>
 							<div
 								className='py-4'
-								dangerouslySetInnerHTML={{ __html: stripString(news.embbed) }}></div>
-							<div className='flex justify-between py-4 border-t-2 border-black'>
+								dangerouslySetInnerHTML={createMarkup(stripString(news.embbed))}></div>
+							<div className='flex flex-col py-4 border-t-2 border-black'>
 								<div>
 									<span className='mr-1 uppercase text-sm'>News:</span>
-									<a href={news.source} className='text-blue-600'>
+									<a target='_blank' href={news.source} className='text-blue-600'>
 										{news.source} →
 									</a>
 								</div>
 								<div>
 									<span className='mr-1 uppercase text-sm'>Source:</span>
-									<a href={news.author} className='text-blue-600'>
+									<a target='_blank' href={news.author} className='text-blue-600'>
 										{news.author} →
 									</a>
 								</div>
@@ -49,12 +60,7 @@ const Feeds = ({ show }) => {
 			</>
 		);
 	};
-	const Facts = () => {
-		return <div className='border-2 border-black py-4 px-3'>Facts</div>;
-	};
-	const Tips = () => {
-		return <div className='border-2 border-black py-4 px-3'>Tips</div>;
-	};
+
 	const HowTo = () => {
 		return <div className='border-2 border-black py-4 px-3'>HowTo</div>;
 	};
@@ -74,7 +80,14 @@ const Feeds = ({ show }) => {
 			case 'Facts':
 				return <Facts />;
 			case 'Tips':
-				return <Tips />;
+				return (
+					<Tips
+						TipsList={TipsList}
+						setTipsList={setTipsList}
+						tipData={tipData}
+						setTipData={setTipData}
+					/>
+				);
 			case 'How-to':
 				return <HowTo />;
 			case 'About':

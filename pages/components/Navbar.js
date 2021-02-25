@@ -4,11 +4,9 @@ import React from 'react';
 const Navbar = () => {
 	const [isScrolled, setIsScrolled] = React.useState(false);
 
-	React.useEffect(() => {
-		setTimeout(function () {
-			setIsScrolled(true);
-		}, 3000);
-	}, []);
+	// React.useEffect(() => {
+	//     setTimeout(function () { setIsScrolled(true) }, 3000)
+	// }, [])
 
 	return (
 		<nav className='text-center p-5 border-black border-b-2'>

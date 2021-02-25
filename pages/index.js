@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Layout from './components/Layouts';
 
-const Home = ({ users }) => {
+const Home = () => {
 	return (
 		<div>
 			<Head>
@@ -13,11 +13,11 @@ const Home = ({ users }) => {
 	);
 };
 
-Home.getInitialProps = async () => {
-	const res = await fetch('http://localhost:3000/api/users');
-	const { data } = await res.json();
+// Home.getInitialProps = async () => {
+// 	const res = await fetch('http://localhost:3000/api/users');
+// 	const { data } = await res.json();
 
-	return { users: data };
-};
+// 	return { users: data };
+// };
 
 export default Home;
