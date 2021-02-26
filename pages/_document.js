@@ -11,6 +11,7 @@ class MyDocument extends Document {
 						rel='stylesheet'
 						href='https://cdn.jsdelivr.net/npm/react-draft-wysiwyg@1.12.3/dist/react-draft-wysiwyg.css'
 					/>
+					<div id='root'></div>
 					<Main />
 					<NextScript />
 				</body>
