@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Feeds from './Feeds';
 
 import Navbar from './Navbar';
+import NewsList from './NewsList';
 import Tabs from './Tabs';
 
 const Layout = () => {
@@ -13,7 +14,7 @@ const Layout = () => {
 		<div className='min-w-screen min-h-screen'>
 			<Navbar />
 			<Tabs list={tabList} curTab={curTab} onChange={setCurTab} />
-
+			<NewsList />
 			<Feeds show={curTab} />
 		</div>
 	);

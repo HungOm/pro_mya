@@ -1,5 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
+import axios from 'axios';
 import fetch from 'isomorphic-unfetch';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -7,16 +8,18 @@ const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
 import '../node_modules/react-quill/dist/quill.snow.css';
 import { Form, FormGroup, Label, Input, Col, Container, Button, Row } from 'reactstrap';
 import { server } from '../utils/config';
+import CustomAlert from '../utils/CustomAlert';
 
 const CreatePost = () => {
 	const [editorHtml, setEditorHtml] = useState('');
 	const [embedURL, setEmbedURL] = useState('');
+	const [message, setMessage] = useState('');
 
 	const onSubmit = async (e) => {
 		e.preventDefault();
 		console.log('test');
 		try {
-			const res = await fetch(`${server}/api/news`, {
+			const res = await fetch(`${server}/api/facts`, {
 				method: 'POST',
 				headers: {
 					Accept: 'application/json',
@@ -24,8 +27,11 @@ const CreatePost = () => {
 				},
 				body: JSON.stringify({ embed: embedURL, content: editorHtml }),
 			});
-			console.log('res', res);
-			router.push('/');
+			if (res) {
+				setMessage(res.statusText);
+			}
+
+			// router.push('/');
 		} catch (error) {
 			console.log(error);
 		}
@@ -40,6 +46,8 @@ const CreatePost = () => {
 						<div className='mt-5 mb-5 text-center'>
 							<h1>Create News Post</h1>
 						</div>
+						<Col>{message ? <CustomAlert color='info'>{message} </CustomAlert> : null}</Col>
+
 						<Col className='mb-6'>
 							<FormGroup>
 								<Label for='name'>Embed Link: </Label>
@@ -95,13 +103,3 @@ const CreatePost = () => {
 };
 
 export default CreatePost;
-
-// async function apiPostNewsImage(file) {
-// 	var image = JSON.stringify(file);
-
-// 	const data = await axios.post(
-// 		'https://script.google.com/macros/s/AKfycbyzdq2XL_YeF2ft3T4talJ--ksp8i-Heck_Z_a9QFnnc9H59ON47ilkOA/exec',
-// 		image
-// 	);
-// 	console.log('data', data);
-// }

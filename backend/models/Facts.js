@@ -11,10 +11,14 @@ const mongoose = require('mongoose');
 
 const factSchema = new mongoose.Schema(
 	{
-		embed: {
+		title: {
+			type: String,
+			// required: [true, 'Please add the title.'],
+		},
+		description: {
 			type: String,
 		},
-		source: {
+		embed: {
 			type: String,
 		},
 		content: {
@@ -26,4 +30,4 @@ const factSchema = new mongoose.Schema(
 	}
 );
 
-module.exports = mongoose.models.news || mongoose.model('news', factSchema);
+module.exports = mongoose.models.facts || mongoose.model('facts', factSchema);
