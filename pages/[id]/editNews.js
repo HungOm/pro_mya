@@ -1,17 +1,24 @@
 import { useState, useEffect } from 'react';
-import { Button, Form, Row, Col, FormGroup, Input, Label } from 'reactstrap';
+import { Container, Form, Row, Col, FormGroup, Input, Label } from 'reactstrap';
 import { useRouter } from 'next/router';
 import { server } from '../../utils/config';
 
-const EditNews = ({ news, match }) => {
-	const [form, setForm] = useState({ embed: news.embed, content: news.content });
-	const [isSubmitting, setIsSubmitting] = useState(false);
+const EditNews = ({ news }) => {
+	useEffect(() => {
+		if (news) {
+			setEmbed(news.embed);
+			setContent(news.content);
+		}
+	}, [news]);
+
+	const [embed, setEmbed] = useState();
+	const [content, setContent] = useState();
 	const router = useRouter();
 
-	console.log('news', news);
 	//TODO to add embed  to html convert to easier to edit
 
-	const updateNote = async () => {
+	const updateNote = async (e) => {
+		e.preventDefault();
 		try {
 			const res = await fetch(`${server}/api/news/${router.query.id}`, {
 				method: 'PATCH',
@@ -19,23 +26,20 @@ const EditNews = ({ news, match }) => {
 					Accept: 'application/json',
 					'Content-Type': 'application/json',
 				},
-				body: JSON.stringify(form),
+				body: JSON.stringify({
+					embed,
+					content,
+				}),
 			});
+			// console.log('res', res);
 			// router.push('/');
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
-	const handleChange = (e) => {
-		setForm({
-			...form,
-			[e.target.name]: e.target.value,
-		});
-	};
-
 	return (
-		<div>
+		<Container>
 			<h1>Update News</h1>
 			<div>
 				<Form onSubmit={updateNote}>
@@ -45,11 +49,11 @@ const EditNews = ({ news, match }) => {
 								<Label for='name'>Embed Link: </Label>
 								<Input
 									type='text'
-									name='embedURL'
-									id='embedURL'
-									placeholder=' Paste embedURL'
-									value={form.embed}
-									onChange={(e) => handleChange}
+									name='embed'
+									id='embed'
+									placeholder=' Paste embed'
+									value={embed}
+									onChange={(e) => setEmbed(e.target.value)}
 								/>
 							</FormGroup>
 						</Col>
@@ -61,18 +65,23 @@ const EditNews = ({ news, match }) => {
 									name='content'
 									id='content'
 									placeholder=' Edit content'
-									value={form.content}
-									onChange={(e) => handleChange}
+									value={content}
+									onChange={(e) => setContent(e.target.value)}
 								/>
 							</FormGroup>
 						</Col>
 						<Col>
-							<Button type='submit'>Update</Button>
+							<input
+								type='submit'
+								style={{ background: '#17a2b8', color: '#fff' }}
+								className='btn btn-custom mt-5 p-1 rounded'
+								value='Update '
+							/>
 						</Col>
 					</Row>
 				</Form>
 			</div>
-		</div>
+		</Container>
 	);
 };
 
